@@ -25,25 +25,13 @@ const API_CONFIGS = {
 const VERDICT_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 function createPrompt(pageText, hostname) {
-    // Fallback prompt if page is empty
     if (!pageText || pageText.trim().length < 20) {
-        return `Is the website domain ${hostname} legitimate and safe for users? Reply in JSON: {"verdict":"SAFE|SUSPICIOUS|DANGEROUS|UNKNOWN","score":0-100,"reason":"short explanation"}.`;
+        return `Is the website domain ${hostname} legitimate and safe? Reply in JSON: {"verdict":"SAFE|SUSPICIOUS|DANGEROUS|UNKNOWN","score":0-100,"reason":"short explanation"}.`;
     }
-    return `
-Analyze the following website text and judge if this domain (${hostname}) is SAFE, SUSPICIOUS, DANGEROUS, or UNKNOWN for users. 
-Consider factors like:
-- Suspicious language or claims
-- Phishing indicators
-- Scam patterns
-- Legitimate business content
-- Social engineering tactics
-- Trust indicators
 
-Give a short reason and confidence score. Output in JSON format: 
-{"verdict":"SAFE|SUSPICIOUS|DANGEROUS|UNKNOWN","score":0-100,"reason":"short explanation"}.
+    return `Analyze this website and judge if domain ${hostname} is SAFE, SUSPICIOUS, DANGEROUS, or UNKNOWN. Consider phishing, scams, and legitimacy. Reply in JSON: {"verdict":"SAFE|SUSPICIOUS|DANGEROUS|UNKNOWN","score":0-100,"reason":"short explanation"}.
 
-Website text: """${pageText.substring(0, 5000)}"""
-`;
+Website text: """${pageText.substring(0, 3000)}"""`;
 }
 
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
@@ -276,6 +264,7 @@ async function queryGemini(apiKey, prompt) {
     const data = await res.json();
     return parseAIResponse(data.candidates[0].content.parts[0].text);
 }
+
 
 function parseAIResponse(responseText) {
     try {

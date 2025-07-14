@@ -11,7 +11,9 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-width: 380px;
+
+            min-width: 340px;
+
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
             overflow-x: hidden;
@@ -28,7 +30,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 16px 20px;
+
+            padding: 12px 16px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border-radius: 20px 20px 0 0;
@@ -39,6 +42,7 @@
             align-items: center;
             gap: 12px;
         }
+
 
         .header img {
             width: 32px;
@@ -60,6 +64,7 @@
             font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
+
         }
 
         .tabs {
@@ -81,6 +86,7 @@
             position: relative;
         }
 
+
         .tab.active {
             color: #667eea;
             background: white;
@@ -98,7 +104,8 @@
 
         .tab-content {
             display: none;
-            padding: 20px;
+
+            padding: 16px;
         }
 
         .tab-content.active {
@@ -106,14 +113,16 @@
         }
 
         .api-section {
-            margin-bottom: 20px;
+
+            margin-bottom: 14px;
         }
 
         .api-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 12px;
+
+            margin-bottom: 8px;
         }
 
         .api-name {
@@ -245,20 +254,20 @@
         .verdict-section {
             background: #f8fafc;
             border-radius: 12px;
-            padding: 16px;
-            margin: 16px 0;
+            padding: 12px;
+            margin: 12px 0;
             border: 1px solid #e2e8f0;
         }
 
         .verdict-row {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 10px;
+            margin-bottom: 8px;
         }
 
         .verdict-emoji {
-            font-size: 24px;
+            font-size: 20px;
         }
 
         .verdict-text {
@@ -277,27 +286,26 @@
         }
 
         #details {
-            font-size: 13px;
+            font-size: 12px;
             color: #64748b;
-            line-height: 1.5;
-            margin-top: 8px;
+            line-height: 1.4;
+            margin-top: 6px;
         }
 
         .actions {
             display: flex;
-            gap: 12px;
-            padding: 0 0 20px 0;
-        }
-
+            gap: 10px;
+            padding: 0 0 16px 0;
         .action-btn {
             flex: 1;
-            padding: 12px;
+
+            padding: 10px;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .retest-btn {
@@ -462,7 +470,8 @@
                     <span class="verdict-text" id="verdict">UNKNOWN</span>
                     <span class="verdict-score" id="score"></span>
                 </div>
-                <div id="details">Click "Test Site" to analyze the current website's legitimacy.</div>
+
+                <div id="details">Click "Test Site" to analyze this website.</div>
             </div>
             
             <div class="actions">
@@ -483,11 +492,8 @@
                     <li>🧠 OpenAI GPT-4 analysis</li>
                     <li>🎯 Claude AI insights</li>
                     <li>💎 Google Gemini detection</li>
-                    <li>⚡ Faster response times</li>
-                    <li>📊 Detailed threat analysis</li>
-                    <li>🛡️ Advanced phishing detection</li>
-                    <li>📈 Historical site data</li>
-                    <li>🎯 Multi-model consensus scoring</li>
+
+                    <li>⚡ Enhanced accuracy</li>
                 </ul>
             </div>
 

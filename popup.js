@@ -157,6 +157,7 @@ function setupEventListeners() {
         if (event.data.type === 'verdictUpdate') {
             setVerdict(event.data.verdict);
             switchToTab('results');
+
             showStatus('groq', 'Analysis complete', 'success');
         }
         if (event.data.type === 'verdictError') {
@@ -252,6 +253,7 @@ function saveApiKey(provider) {
 
     const storageKey = `${provider}ApiKey`;
     chrome.storage.local.set({ [storageKey]: key }, () => {
+
         showStatus(provider, 'API key saved!', 'success');
         
         // Update API status badge
@@ -349,6 +351,7 @@ function handleSubscription(provider) {
         chrome.storage.local.set({ subscriptionStatus: true }, () => {
             updateSubscriptionUI();
             switchToTab('apis');
+
             showStatus(provider, 'Premium activated!', 'success');
         });
     }, 2000);

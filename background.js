@@ -28,6 +28,7 @@ function createPrompt(pageText, hostname) {
     if (!pageText || pageText.trim().length < 20) {
         return `Is the website domain ${hostname} legitimate and safe? Reply in JSON: {"verdict":"SAFE|SUSPICIOUS|DANGEROUS|UNKNOWN","score":0-100,"reason":"short explanation"}.`;
     }
+
     return `Analyze this website and judge if domain ${hostname} is SAFE, SUSPICIOUS, DANGEROUS, or UNKNOWN. Consider phishing, scams, and legitimacy. Reply in JSON: {"verdict":"SAFE|SUSPICIOUS|DANGEROUS|UNKNOWN","score":0-100,"reason":"short explanation"}.
 
 Website text: """${pageText.substring(0, 3000)}"""`;
@@ -263,6 +264,7 @@ async function queryGemini(apiKey, prompt) {
     const data = await res.json();
     return parseAIResponse(data.candidates[0].content.parts[0].text);
 }
+
 
 function parseAIResponse(responseText) {
     try {

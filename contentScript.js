@@ -22,18 +22,18 @@ function showBadge(verdictObj) {
   };
 
   badge.innerHTML = `
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <span style="font-size: 2em;">${emotes[v]}</span>
-      <span style="font-weight:bold; font-size: 1.1em; color:${colors[v]};">${v}</span>
-      <span style="font-size:0.9em; color:#333;">${s}%</span>
+    <div style="display: flex; align-items: center; gap: 6px;">
+      <span style="font-size: 1.4em;">${emotes[v]}</span>
+      <span style="font-weight:bold; font-size: 0.9em; color:${colors[v]};">${v}</span>
+      <span style="font-size:0.8em; color:#333;">${s}%</span>
     </div>
-    <div style="font-size:0.95em; margin-top:2px; color:#444">${r}</div>
-    <button id="ai-retest-btn" style="margin-top:6px; font-size:0.8em;">Retest</button>
+    <div style="font-size:0.8em; margin-top:2px; color:#444; max-width: 140px; word-wrap: break-word;">${r}</div>
+    <button id="ai-retest-btn" style="margin-top:4px; font-size:0.7em; padding: 2px 6px;">Retest</button>
   `;
   badge.style = `
-    position:fixed; top:20px; right:20px; z-index:10000; background:white; box-shadow:0 2px 10px #0002; 
-    border-radius:12px; padding:16px 18px 10px 18px; min-width:190px;
-    border:2px solid ${colors[v]}; font-family:sans-serif;
+    position:fixed; top:20px; right:20px; z-index:10000; background:white; box-shadow:0 2px 8px rgba(0,0,0,0.15); 
+    border-radius:8px; padding:10px 12px 8px 12px; max-width:160px; min-width:120px;
+    border:1px solid ${colors[v]}; font-family:sans-serif; font-size: 12px;
   `;
   document.body.appendChild(badge);
 

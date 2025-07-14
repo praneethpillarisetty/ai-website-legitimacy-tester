@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Website Legitimacy Tester</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-width: 290px;
+            background: #f8fafc;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px 0 16px;
+        }
+
+            .header img {
+                width: 32px;
+                height: 32px;
+            }
+
+        h2 {
+            font-size: 19px;
+            margin: 0;
+            color: #03620b;
+        }
+
+        .key-area {
+            background: #fffce9;
+            border: 1px solid #eee5a6;
+            margin: 10px 16px 8px 16px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+            .key-area label {
+                font-size: 14px;
+                color: #555;
+            }
+
+        .key-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 7px;
+            position: relative;
+        }
+
+        #groq-key {
+            font-size: 15px;
+            padding: 6px;
+            flex: 1;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            background: #fafbff;
+        }
+
+        #save-key-btn {
+            padding: 6px 12px;
+            border-radius: 5px;
+            border: none;
+            background: #21b321;
+            color: #fff;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .eye-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 3px 5px;
+            margin-left: -34px;
+            outline: none;
+            color: #888;
+            font-size: 18px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .status {
+            font-size: 13px;
+            margin: 5px 0 0 0;
+            color: #03620b;
+        }
+
+        .verdict-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0 4px 0;
+            padding: 0 16px;
+        }
+
+            .verdict-row span {
+                font-size: 1.7em;
+            }
+
+        #details {
+            margin: 0 16px 8px 16px;
+            font-size: 14px;
+            min-height: 30px;
+            color: #222;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            padding: 0 16px 16px 16px;
+        }
+
+            .actions button {
+                font-size: 15px;
+                flex: 1 1 0;
+                padding: 7px;
+                border-radius: 7px;
+                border: none;
+                cursor: pointer;
+                transition: background .15s;
+            }
+
+            .actions .retest {
+                background: #21b321;
+                color: #fff;
+            }
+
+            .actions .clear {
+                background: #f6b432;
+                color: #fff;
+            }
+
+            .actions .retest:hover {
+                background: #0a970a;
+            }
+
+            .actions .clear:hover {
+                background: #e87911;
+            }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="icons/icon32.png" alt="icon" />
+        <h2>Site Legitimacy</h2>
+    </div>
+    <div class="key-area">
+        <label for="groq-key">Groq API Key:</label>
+        <div class="key-row">
+            <input type="password" id="groq-key" placeholder="gsk_..." autocomplete="off" />
+            <button type="button" class="eye-toggle" id="eye-toggle" aria-label="Show/Hide Key" tabindex="0">
+                <span id="eye-icon">&#128065;</span>
+            </button>
+            <button id="save-key-btn">Save</button>
+        </div>
+        <div class="status" id="api-status"></div>
+    </div>
+    <div class="verdict-row">
+        <span id="emote"></span>
+        <span id="verdict" style="font-weight:bold; font-size: 1.2em;"></span>
+        <span id="score"></span>
+    </div>
+    <div id="details"></div>
+    <div class="actions">
+        <button class="retest" id="retest-btn">🔄 Retest</button>
+        <button class="clear" id="clear-btn">🧹 Clear Verdict</button>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>

@@ -48,6 +48,57 @@
             gap: 12px;
         }
 
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .window-control-btn {
+            width: 24px;
+            height: 24px;
+            border: none;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .window-control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .window-control-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Minimized state styles */
+        .popup-minimized {
+            max-height: 60px;
+            overflow: hidden;
+        }
+
+        .popup-minimized .container {
+            display: none;
+        }
+
+        /* Maximized state styles */
+        .popup-maximized {
+            min-width: 400px;
+            max-width: 500px;
+            max-height: 700px;
+        }
+
+        .popup-maximized .container {
+            max-height: 650px;
+        }
+
 
         .header img {
             width: 32px;
@@ -405,7 +456,11 @@
             <img src="icon/icon32.png" alt="icon" />
             <h2>Site Legitimacy Checker</h2>
         </div>
-        <div class="subscription-badge" id="subscription-status">Free</div>
+        <div class="header-right">
+            <button class="window-control-btn" id="minimize-btn" title="Minimize">−</button>
+            <button class="window-control-btn" id="maximize-btn" title="Maximize">□</button>
+            <div class="subscription-badge" id="subscription-status">Free</div>
+        </div>
     </div>
 
     <div class="container">

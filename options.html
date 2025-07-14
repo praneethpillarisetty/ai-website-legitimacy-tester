@@ -3,21 +3,387 @@
 <head>
   <title>AI Website Legitimacy Tester - Settings</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 32px; max-width: 400px; }
-    h1 { font-size: 22px; }
-    input, button { font-size: 16px; padding: 8px; margin-top: 12px; width: 100%; }
-    .status { margin-top: 12px; font-size: 15px; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      opacity: 0.9;
+      font-size: 16px;
+    }
+
+    .content {
+      padding: 32px;
+    }
+
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .api-provider {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .api-provider:hover {
+      border-color: #667eea;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
+    }
+
+    .api-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .api-name {
+      font-weight: 600;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+    }
+
+    .api-status {
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-free {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-premium {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .status-connected {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .key-input-group {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .key-input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+
+    .key-input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .key-input.disabled {
+      background: #f1f5f9;
+      cursor: not-allowed;
+    }
+
+    .btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(45deg, #10b981, #059669);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(45deg, #f59e0b, #d97706);
+      color: white;
+    }
+
+    .btn-danger {
+      background: linear-gradient(45deg, #ef4444, #dc2626);
+      color: white;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .btn:disabled {
+      background: #94a3b8;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .status-message {
+      font-size: 14px;
+      margin-top: 8px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    .status-success {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .status-error {
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+
+    .subscription-info {
+      background: linear-gradient(45deg, #fef7cd, #fde68a);
+      border: 1px solid #fcd34d;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .subscription-info h3 {
+      font-size: 20px;
+      color: #92400e;
+      margin-bottom: 8px;
+    }
+
+    .subscription-info p {
+      color: #92400e;
+      margin-bottom: 16px;
+    }
+
+    .tools-section {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .tool-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+    }
+
+    .tool-item:not(:last-child) {
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .tool-info h4 {
+      font-size: 16px;
+      color: #334155;
+      margin-bottom: 4px;
+    }
+
+    .tool-info p {
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    .subscription-badge {
+      background: linear-gradient(45deg, #ffd700, #ffed4e);
+      color: #333;
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #667eea;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
-  <h1>Settings</h1>
-  <label for="groq-key">Enter your Groq API Key:</label>
-  <input type="password" id="groq-key" placeholder="sk-...">
-  <button id="save-btn">Save API Key</button>
-  <div class="status" id="status"></div>
-  <hr>
-  <button id="clear-cache-btn" style="background: #e74c3c; color: white;">Clear Domain Verdict Cache</button>
-  <div class="status" id="clear-status"></div>
+  <div class="container">
+    <div class="header">
+      <h1>🛡️ Website Legitimacy Checker</h1>
+      <p>Manage your AI API keys and subscription settings</p>
+      <div class="subscription-badge" id="subscription-status">Free</div>
+    </div>
+    
+    <div class="content">
+      <div class="section">
+        <div class="section-title">
+          🔑 API Configuration
+        </div>
+
+        <div class="api-provider">
+          <div class="api-header">
+            <div class="api-name">
+              <span>🤖</span>
+              <span>Groq AI</span>
+            </div>
+            <div class="api-status status-free">Free</div>
+          </div>
+          <div class="key-input-group">
+            <input type="password" class="key-input" id="groq-key" placeholder="gsk_..." />
+            <button class="btn btn-primary" id="groq-save-btn">Save</button>
+          </div>
+          <div class="status-message" id="groq-status"></div>
+        </div>
+
+        <div class="api-provider">
+          <div class="api-header">
+            <div class="api-name">
+              <span>🧠</span>
+              <span>OpenAI GPT</span>
+            </div>
+            <div class="api-status status-premium">Premium</div>
+          </div>
+          <div class="key-input-group">
+            <input type="password" class="key-input disabled" id="openai-key" placeholder="sk-..." disabled />
+            <button class="btn btn-secondary" id="openai-subscribe-btn">Subscribe</button>
+          </div>
+          <div class="status-message" id="openai-status">Requires Premium subscription</div>
+        </div>
+
+        <div class="api-provider">
+          <div class="api-header">
+            <div class="api-name">
+              <span>🎯</span>
+              <span>Claude AI</span>
+            </div>
+            <div class="api-status status-premium">Premium</div>
+          </div>
+          <div class="key-input-group">
+            <input type="password" class="key-input disabled" id="claude-key" placeholder="sk-ant-..." disabled />
+            <button class="btn btn-secondary" id="claude-subscribe-btn">Subscribe</button>
+          </div>
+          <div class="status-message" id="claude-status">Requires Premium subscription</div>
+        </div>
+
+        <div class="api-provider">
+          <div class="api-header">
+            <div class="api-name">
+              <span>💎</span>
+              <span>Google Gemini</span>
+            </div>
+            <div class="api-status status-premium">Premium</div>
+          </div>
+          <div class="key-input-group">
+            <input type="password" class="key-input disabled" id="gemini-key" placeholder="AIza..." disabled />
+            <button class="btn btn-secondary" id="gemini-subscribe-btn">Subscribe</button>
+          </div>
+          <div class="status-message" id="gemini-status">Requires Premium subscription</div>
+        </div>
+      </div>
+
+      <div class="section" id="subscription-section" style="display: none;">
+        <div class="subscription-info">
+          <h3>🌟 Premium Subscription</h3>
+          <p>Access multiple AI providers for enhanced website analysis</p>
+          <button class="btn btn-secondary" id="upgrade-btn">
+            ⭐ Upgrade to Premium - $9.99/month
+          </button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">
+          🛠️ Tools & Maintenance
+        </div>
+        <div class="tools-section">
+          <div class="tool-item">
+            <div class="tool-info">
+              <h4>Clear Verdict Cache</h4>
+              <p>Remove all stored website analysis results</p>
+            </div>
+            <button class="btn btn-danger" id="clear-cache-btn">Clear Cache</button>
+          </div>
+          <div class="tool-item">
+            <div class="tool-info">
+              <h4>Reset Settings</h4>
+              <p>Remove all API keys and reset to defaults</p>
+            </div>
+            <button class="btn btn-danger" id="reset-settings-btn">Reset All</button>
+          </div>
+        </div>
+        <div class="status-message" id="tools-status"></div>
+      </div>
+    </div>
+  </div>
+
   <script src="options.js"></script>
 </body>
 </html>

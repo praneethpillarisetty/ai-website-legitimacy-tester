@@ -3,171 +3,502 @@
 <head>
     <title>AI Website Legitimacy Tester</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            min-width: 290px;
-            background: #f8fafc;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-width: 380px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px 20px 0 0;
+            margin-top: 8px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
         }
 
         .header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 14px 16px 0 16px;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 20px 20px 0 0;
         }
 
-            .header img {
-                width: 32px;
-                height: 32px;
-            }
-
-        h2 {
-            font-size: 19px;
-            margin: 0;
-            color: #03620b;
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        .key-area {
-            background: #fffce9;
-            border: 1px solid #eee5a6;
-            margin: 10px 16px 8px 16px;
-            padding: 10px;
+        .header img {
+            width: 32px;
+            height: 32px;
             border-radius: 8px;
         }
 
-            .key-area label {
-                font-size: 14px;
-                color: #555;
-            }
+        .header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0;
+        }
 
-        .key-row {
+        .subscription-badge {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #333;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .tabs {
             display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 7px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px 16px;
+            text-align: center;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            font-weight: 500;
+            transition: all 0.3s ease;
             position: relative;
         }
 
-        #groq-key {
-            font-size: 15px;
-            padding: 6px;
-            flex: 1;
-            border: 1px solid #bbb;
-            border-radius: 5px;
-            background: #fafbff;
+        .tab.active {
+            color: #667eea;
+            background: white;
         }
 
-        #save-key-btn {
-            padding: 6px 12px;
-            border-radius: 5px;
-            border: none;
-            background: #21b321;
-            color: #fff;
-            cursor: pointer;
-            font-size: 15px;
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .api-section {
+            margin-bottom: 20px;
+        }
+
+        .api-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .api-name {
+            font-weight: 600;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .api-status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .status-free {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-premium {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-connected {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .key-input-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .key-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .key-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+        }
+
+        .key-input.disabled {
+            background: #f1f5f9;
+            cursor: not-allowed;
         }
 
         .eye-toggle {
-            background: none;
-            border: none;
+            background: #f1f5f9;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px;
             cursor: pointer;
-            padding: 3px 5px;
-            margin-left: -34px;
-            outline: none;
-            color: #888;
-            font-size: 18px;
-            z-index: 2;
-            position: relative;
+            color: #64748b;
+            transition: all 0.3s ease;
         }
 
-        .status {
-            font-size: 13px;
-            margin: 5px 0 0 0;
-            color: #03620b;
+        .eye-toggle:hover {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .save-btn {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: transform 0.2s ease;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .save-btn:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .subscribe-btn {
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            transition: transform 0.2s ease;
+        }
+
+        .subscribe-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .key-status {
+            font-size: 12px;
+            margin-top: 4px;
+            padding: 4px 0;
+        }
+
+        .status-success {
+            color: #059669;
+        }
+
+        .status-error {
+            color: #dc2626;
+        }
+
+        .verdict-section {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+            border: 1px solid #e2e8f0;
         }
 
         .verdict-row {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin: 16px 0 4px 0;
-            padding: 0 16px;
+            margin-bottom: 12px;
         }
 
-            .verdict-row span {
-                font-size: 1.7em;
-            }
+        .verdict-emoji {
+            font-size: 24px;
+        }
+
+        .verdict-text {
+            font-weight: 600;
+            font-size: 16px;
+            flex: 1;
+        }
+
+        .verdict-score {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
 
         #details {
-            margin: 0 16px 8px 16px;
-            font-size: 14px;
-            min-height: 30px;
-            color: #222;
+            font-size: 13px;
+            color: #64748b;
+            line-height: 1.5;
+            margin-top: 8px;
         }
 
         .actions {
             display: flex;
-            gap: 10px;
-            padding: 0 16px 16px 16px;
+            gap: 12px;
+            padding: 0 0 20px 0;
         }
 
-            .actions button {
-                font-size: 15px;
-                flex: 1 1 0;
-                padding: 7px;
-                border-radius: 7px;
-                border: none;
-                cursor: pointer;
-                transition: background .15s;
-            }
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
 
-            .actions .retest {
-                background: #21b321;
-                color: #fff;
-            }
+        .retest-btn {
+            background: linear-gradient(45deg, #10b981, #059669);
+            color: white;
+        }
 
-            .actions .clear {
-                background: #f6b432;
-                color: #fff;
-            }
+        .clear-btn {
+            background: linear-gradient(45deg, #f59e0b, #d97706);
+            color: white;
+        }
 
-            .actions .retest:hover {
-                background: #0a970a;
-            }
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
 
-            .actions .clear:hover {
-                background: #e87911;
-            }
+        .provider-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        .subscription-info {
+            background: #fef7cd;
+            border: 1px solid #fcd34d;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        .premium-features {
+            background: linear-gradient(45deg, #fef7cd, #fde68a);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            font-size: 12px;
+            color: #92400e;
+        }
+
+        .premium-features ul {
+            margin: 8px 0 0 16px;
+        }
+
+        .premium-features li {
+            margin: 4px 0;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <img src="icons/icon32.png" alt="icon" />
-        <h2>Site Legitimacy</h2>
-    </div>
-    <div class="key-area">
-        <label for="groq-key">Groq API Key:</label>
-        <div class="key-row">
-            <input type="password" id="groq-key" placeholder="gsk_..." autocomplete="off" />
-            <button type="button" class="eye-toggle" id="eye-toggle" aria-label="Show/Hide Key" tabindex="0">
-                <span id="eye-icon">&#128065;</span>
-            </button>
-            <button id="save-key-btn">Save</button>
+        <div class="header-left">
+            <img src="icon/icon32.png" alt="icon" />
+            <h2>Site Legitimacy Checker</h2>
         </div>
-        <div class="status" id="api-status"></div>
+        <div class="subscription-badge" id="subscription-status">Free</div>
     </div>
-    <div class="verdict-row">
-        <span id="emote"></span>
-        <span id="verdict" style="font-weight:bold; font-size: 1.2em;"></span>
-        <span id="score"></span>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" data-tab="apis">🔑 API Keys</button>
+            <button class="tab" data-tab="results">📊 Results</button>
+            <button class="tab" data-tab="subscription">⭐ Premium</button>
+        </div>
+
+        <div class="tab-content active" id="apis-tab">
+            <div class="api-section">
+                <div class="api-header">
+                    <div class="api-name">
+                        <span>🤖</span>
+                        <span>Groq AI</span>
+                    </div>
+                    <div class="api-status status-free">Free</div>
+                </div>
+                <div class="key-input-group">
+                    <input type="password" class="key-input" id="groq-key" placeholder="gsk_..." autocomplete="off" />
+                    <button class="eye-toggle" id="groq-eye-toggle">👁️</button>
+                    <button class="save-btn" id="groq-save-btn">Save</button>
+                </div>
+                <div class="key-status" id="groq-status"></div>
+            </div>
+
+            <div class="api-section">
+                <div class="api-header">
+                    <div class="api-name">
+                        <span>🧠</span>
+                        <span>OpenAI GPT</span>
+                    </div>
+                    <div class="api-status status-premium">Premium</div>
+                </div>
+                <div class="key-input-group">
+                    <input type="password" class="key-input disabled" id="openai-key" placeholder="sk-..." disabled />
+                    <button class="eye-toggle" id="openai-eye-toggle" disabled>👁️</button>
+                    <button class="subscribe-btn" id="openai-subscribe-btn">Subscribe</button>
+                </div>
+                <div class="key-status" id="openai-status">Requires Premium subscription</div>
+            </div>
+
+            <div class="api-section">
+                <div class="api-header">
+                    <div class="api-name">
+                        <span>🎯</span>
+                        <span>Claude AI</span>
+                    </div>
+                    <div class="api-status status-premium">Premium</div>
+                </div>
+                <div class="key-input-group">
+                    <input type="password" class="key-input disabled" id="claude-key" placeholder="sk-ant-..." disabled />
+                    <button class="eye-toggle" id="claude-eye-toggle" disabled>👁️</button>
+                    <button class="subscribe-btn" id="claude-subscribe-btn">Subscribe</button>
+                </div>
+                <div class="key-status" id="claude-status">Requires Premium subscription</div>
+            </div>
+
+            <div class="api-section">
+                <div class="api-header">
+                    <div class="api-name">
+                        <span>💎</span>
+                        <span>Google Gemini</span>
+                    </div>
+                    <div class="api-status status-premium">Premium</div>
+                </div>
+                <div class="key-input-group">
+                    <input type="password" class="key-input disabled" id="gemini-key" placeholder="AIza..." disabled />
+                    <button class="eye-toggle" id="gemini-eye-toggle" disabled>👁️</button>
+                    <button class="subscribe-btn" id="gemini-subscribe-btn">Subscribe</button>
+                </div>
+                <div class="key-status" id="gemini-status">Requires Premium subscription</div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="results-tab">
+            <div class="verdict-section fade-in">
+                <div class="verdict-row">
+                    <span class="verdict-emoji" id="emote">⬜🤔</span>
+                    <span class="verdict-text" id="verdict">UNKNOWN</span>
+                    <span class="verdict-score" id="score"></span>
+                </div>
+                <div id="details">Click "Test Site" to analyze the current website's legitimacy.</div>
+            </div>
+            
+            <div class="actions">
+                <button class="action-btn retest-btn" id="retest-btn">🔄 Test Site</button>
+                <button class="action-btn clear-btn" id="clear-btn">🧹 Clear Result</button>
+            </div>
+        </div>
+
+        <div class="tab-content" id="subscription-tab">
+            <div class="subscription-info">
+                <strong>🌟 Upgrade to Premium</strong><br>
+                Get access to multiple AI providers for more accurate and comprehensive website analysis.
+            </div>
+
+            <div class="premium-features">
+                <strong>Premium Features:</strong>
+                <ul>
+                    <li>🧠 OpenAI GPT-4 analysis</li>
+                    <li>🎯 Claude AI insights</li>
+                    <li>💎 Google Gemini detection</li>
+                    <li>⚡ Faster response times</li>
+                    <li>📊 Detailed threat analysis</li>
+                    <li>🛡️ Advanced phishing detection</li>
+                    <li>📈 Historical site data</li>
+                    <li>🎯 Multi-model consensus scoring</li>
+                </ul>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="action-btn" style="background: linear-gradient(45deg, #f59e0b, #d97706); max-width: 200px;" id="upgrade-btn">
+                    ⭐ Upgrade Now - $9.99/month
+                </button>
+            </div>
+        </div>
     </div>
-    <div id="details"></div>
-    <div class="actions">
-        <button class="retest" id="retest-btn">🔄 Retest</button>
-        <button class="clear" id="clear-btn">🧹 Clear Verdict</button>
-    </div>
+
     <script src="popup.js"></script>
 </body>
 </html>

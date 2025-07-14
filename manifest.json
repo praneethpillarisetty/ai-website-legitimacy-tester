@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "AI Website Legitimacy Tester",
   "short_name": "AI Site Tester",
-  "description": "Check if a website is safe or suspicious in real-time with Groq AI.",
+  "description": "Check if websites are safe or suspicious using AI analysis.",
   "version": "1.0",
   "permissions": [
     "storage",

@@ -1,8 +1,8 @@
 const emotes = {
-    SAFE: "🟩🛡️",         // Green square + shield (safe, protected)
-    SUSPICIOUS: "🟨❓",   // Yellow square + question (caution, unknown)
-    DANGEROUS: "🟥⛔",    // Red square + no entry (danger, blocked)
-    UNKNOWN: "⬜🤔"        // White square + thinking face (unknown, ambiguous)
+    SAFE: "🟢",         // Green circle (safe)
+    SUSPICIOUS: "🟡",   // Yellow circle (caution)
+    DANGEROUS: "🔴",    // Red circle (danger)
+    UNKNOWN: "⚪"       // White circle (unknown)
 };
 
 const API_PROVIDERS = {
@@ -53,10 +53,12 @@ window.addEventListener('DOMContentLoaded', () => {
                         setVerdict(resp.verdict);
                         switchToTab('results');
                     } else {
-                        setVerdict({ verdict: "UNKNOWN", score: 0, reason: "Not checked yet. Switch to Results tab to test this site." });
+                        setVerdict({ verdict: "UNKNOWN", score: 0, reason: "Click 'Test Site' to analyze this website." });
                     }
                 });
             });
+        } else {
+            setVerdict({ verdict: "UNKNOWN", score: 0, reason: "Add your Groq API key in the API Keys tab to get started." });
         }
     });
 });
@@ -155,10 +157,10 @@ function setupEventListeners() {
         if (event.data.type === 'verdictUpdate') {
             setVerdict(event.data.verdict);
             switchToTab('results');
-            showStatus('groq', 'Analysis complete!', 'success');
+            showStatus('groq', 'Analysis complete', 'success');
         }
         if (event.data.type === 'verdictError') {
-            showStatus('groq', event.data.error || "API/network error.", 'error');
+            showStatus('groq', event.data.error || "API error", 'error');
         }
     });
 }
@@ -225,7 +227,7 @@ function loadAllApiKeys() {
             }
             
             if (provider === 'groq' && !key) {
-                showStatus('groq', 'Enter your Groq API key to get started.', 'default');
+                showStatus('groq', 'Enter your API key above', 'default');
             }
         });
     });
@@ -250,7 +252,7 @@ function saveApiKey(provider) {
 
     const storageKey = `${provider}ApiKey`;
     chrome.storage.local.set({ [storageKey]: key }, () => {
-        showStatus(provider, 'API key saved successfully!', 'success');
+        showStatus(provider, 'API key saved!', 'success');
         
         // Update API status badge
         const statusBadge = document.querySelector(`#${provider}-key`).closest('.api-section').querySelector('.api-status');
@@ -347,7 +349,7 @@ function handleSubscription(provider) {
         chrome.storage.local.set({ subscriptionStatus: true }, () => {
             updateSubscriptionUI();
             switchToTab('apis');
-            showStatus(provider, 'Premium activated! You can now use this API.', 'success');
+            showStatus(provider, 'Premium activated!', 'success');
         });
     }, 2000);
 }

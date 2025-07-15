@@ -132,6 +132,16 @@ function initializeApiSections() {
 }
 
 function setupEventListeners() {
+    // Minimize button
+    document.getElementById('minimize-btn').addEventListener('click', () => {
+        toggleMinimize();
+    });
+
+    // Maximize button
+    document.getElementById('maximize-btn').addEventListener('click', () => {
+        toggleMaximize();
+    });
+
     // Retest button
     document.getElementById('retest-btn').addEventListener('click', () => {
         refreshVerdict(true);
@@ -164,6 +174,62 @@ function setupEventListeners() {
             showStatus('groq', event.data.error || "API error", 'error');
         }
     });
+}
+
+// Window control functions
+let isMinimized = false;
+let isMaximized = false;
+
+function toggleMinimize() {
+    const body = document.body;
+    const minimizeBtn = document.getElementById('minimize-btn');
+    
+    if (isMinimized) {
+        // Restore from minimized state
+        body.classList.remove('popup-minimized');
+        minimizeBtn.textContent = '−';
+        minimizeBtn.title = 'Minimize';
+        isMinimized = false;
+    } else {
+        // Minimize
+        body.classList.add('popup-minimized');
+        body.classList.remove('popup-maximized'); // Remove maximized state if active
+        minimizeBtn.textContent = '□';
+        minimizeBtn.title = 'Restore';
+        isMinimized = true;
+        isMaximized = false;
+        
+        // Update maximize button
+        const maximizeBtn = document.getElementById('maximize-btn');
+        maximizeBtn.textContent = '□';
+        maximizeBtn.title = 'Maximize';
+    }
+}
+
+function toggleMaximize() {
+    const body = document.body;
+    const maximizeBtn = document.getElementById('maximize-btn');
+    
+    if (isMaximized) {
+        // Restore from maximized state
+        body.classList.remove('popup-maximized');
+        maximizeBtn.textContent = '□';
+        maximizeBtn.title = 'Maximize';
+        isMaximized = false;
+    } else {
+        // Maximize
+        body.classList.add('popup-maximized');
+        body.classList.remove('popup-minimized'); // Remove minimized state if active
+        maximizeBtn.textContent = '◱';
+        maximizeBtn.title = 'Restore';
+        isMaximized = true;
+        isMinimized = false;
+        
+        // Update minimize button
+        const minimizeBtn = document.getElementById('minimize-btn');
+        minimizeBtn.textContent = '−';
+        minimizeBtn.title = 'Minimize';
+    }
 }
 
 function loadSubscriptionStatus() {
